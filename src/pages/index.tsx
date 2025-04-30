@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [listItems, setListItems] = useState<ListItemType[]>([]);
 
+  const url = "http://localhost:3000/api/tasks";
+
   const fetchData = async () => {
-    const res = await fetch("http://localhost:3000/api/tasks");
+    const res = await fetch(url);
     const data = await res.json();
     return data;
   };
 
-  console.log(listItems);
-
   const handleCreateTask = async (newTask: Omit<ListItemType, "id">) => {
-    const response = await fetch("http://localhost:3000/api/tasks", {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,12 +26,12 @@ export default function Home() {
   };
 
   const handleUpdateTaskStatus = async (id: string, complete: boolean) => {
-    await fetch("http://localhost:3000/api/tasks", {
+    await fetch(`${url}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, complete }),
+      body: JSON.stringify({ complete }),
     });
 
     setListItems((prevListItems) =>
@@ -44,14 +44,17 @@ export default function Home() {
   };
 
   const handleDeleteTask = async (id: string) => {
-    await fetch("http://localhost:3000/api/tasks", {
+    const response = await fetch(`${url}/${id}`, {
       method: "DELETE",
-      body: JSON.stringify({ id }),
     });
 
-    setListItems((prevListItems) =>
-      prevListItems.filter((item) => item.id !== id)
-    );
+    if (response.ok) {
+      setListItems((prevListItems) =>
+        prevListItems.filter((item) => item.id !== id)
+      );
+    } else {
+      console.error("Failed to delete task");
+    }
   };
 
   useEffect(() => {
