@@ -14,46 +14,67 @@ export default function Home() {
   };
 
   const handleCreateTask = async (newTask: Omit<ListItemType, "id">) => {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    });
-    const createdTask = await response.json();
-    setListItems([...listItems, createdTask]);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to create task: ${response.statusText}`);
+      }
+
+      const createdTask = await response.json();
+      setListItems([...listItems, createdTask]);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
   const handleUpdateTaskStatus = async (id: string, complete: boolean) => {
-    await fetch(`${url}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ complete }),
-    });
+    try {
+      const response = await fetch(`${url}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ complete }),
+      });
 
-    setListItems((prevListItems) =>
-      prevListItems.map((prevListItem) =>
-        prevListItem.id === id
-          ? { ...prevListItem, complete: !prevListItem.complete }
-          : prevListItem
-      )
-    );
+      if (!response.ok) {
+        throw new Error(`Failed to update task status: ${response.statusText}`);
+      }
+
+      setListItems((prevListItems) =>
+        prevListItems.map((prevListItem) =>
+          prevListItem.id === id
+            ? { ...prevListItem, complete: !prevListItem.complete }
+            : prevListItem
+        )
+      );
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
   };
 
   const handleDeleteTask = async (id: string) => {
-    const response = await fetch(`${url}/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      const response = await fetch(`${url}/${id}`, {
+        method: "DELETE",
+      });
 
-    if (response.ok) {
+      if (!response.ok) {
+        throw new Error(`Failed to delete task`);
+      }
+
       setListItems((prevListItems) =>
         prevListItems.filter((item) => item.id !== id)
       );
-    } else {
-      console.error("Failed to delete task");
+    } catch (error) {
+      console.error("Failed to delete task", error);
     }
   };
 
