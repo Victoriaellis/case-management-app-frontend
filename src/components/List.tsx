@@ -28,7 +28,7 @@ export const List = ({
     <div className="w-2/3">
       <button
         onClick={() => setShowNewItemForm(!showNewItemForm)}
-        className="mb-2 p-2 border rounded-md"
+        className="mb-2 p-2 border rounded-md cursor-pointer"
       >
         {showNewItemForm ? "Cancel" : "Add to do"}
       </button>

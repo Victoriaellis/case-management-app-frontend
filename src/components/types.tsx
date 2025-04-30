@@ -3,5 +3,5 @@ export type ListItemType = {
   title: string;
   description?: string;
   complete: boolean;
-  dueDate: string;
+  due_date: string;
 };

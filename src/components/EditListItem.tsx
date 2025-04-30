@@ -15,7 +15,7 @@ export const EditListItem = ({ handleAddListItem }: EditListItemProps) => {
       title: newTitle,
       description: newDescription,
       complete: false,
-      dueDate: newDueDate,
+      due_date: newDueDate,
     });
   };
   return (
@@ -42,7 +42,7 @@ export const EditListItem = ({ handleAddListItem }: EditListItemProps) => {
       />
       <button
         onClick={addListItem}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
       >
         Save
       </button>
