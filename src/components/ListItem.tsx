@@ -9,7 +9,7 @@ interface ListProps {
 export const ListItem = ({ item, onToggle, onDelete }: ListProps) => {
   const dueDate = new Date(item.due_date).toLocaleDateString();
   return (
-    <div className="flex justify-between items-start p-4 border rounded-2xl shadow-sm bg-white hover:shadow-md transition-all gap-3 mb-2">
+    <div className="flex items-start p-4 border rounded-2xl shadow-sm bg-white hover:shadow-md transition-all gap-3 mb-2">
       <input
         type="checkbox"
         checked={item.complete}
