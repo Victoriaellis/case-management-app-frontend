@@ -35,15 +35,14 @@ export const List = ({
       {showNewItemForm && (
         <EditListItem handleAddListItem={handleAddListItem} />
       )}
-      {listItems.length &&
-        listItems.map((item) => (
-          <ListItem
-            key={item.title}
-            item={item}
-            onToggle={() => handleUpdateTaskStatus(item.id, !item.complete)}
-            onDelete={() => handleDeleteTask(item.id)}
-          />
-        ))}
+      {listItems?.map((item) => (
+        <ListItem
+          key={item.title}
+          item={item}
+          onToggle={() => handleUpdateTaskStatus(item.id, !item.complete)}
+          onDelete={() => handleDeleteTask(item.id)}
+        />
+      ))}
     </div>
   );
 };
